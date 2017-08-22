@@ -207,6 +207,19 @@ Its possible values are:
   :type 'integer
   :group 'treemacs-configuration)
 
+(defcustom treemacs-collapse-dirs nil
+  "When t treemacs will collapse directories into one when possible.
+A directory is collapsible when its content consists of nothing but another
+directory.
+To minimize this option's impact on display performace the search for
+directories to collapse is done asynchronously in a python script and will thus
+only work when python installed. The script should work both on python2 and 3.
+TODO Use as number
+TODO use in python
+TODO Readme."
+  :type 'integer
+  :group 'treemacs-configuration)
+
 (provide 'treemacs-customization)
 
 ;;; treemacs-customization.el ends here
