@@ -88,9 +88,6 @@
 (defvar treemacs--open-dirs-cache '()
   "Cache to keep track of opened subfolders.")
 
-(defconst treemacs--buffer-name "*Treemacs*"
-  "Name of the treemacs buffer.")
-
 (defconst treemacs--buffer-name-prefix "*Treemacs-")
 
 (defconst treemacs-dir
@@ -870,7 +867,8 @@ through the buffer list and kill buffer if PATH is a prefix."
 
   (defun treemacs--window-number-ten ()
     (when (and (eq (selected-window) (frame-first-window))
-               (treemacs--is-treemacs-window-selected?)) 10))
+               (treemacs--is-treemacs-window-selected?))
+      10))
 
   (when (boundp 'winum-assign-func)
     (setq winum-assign-func #'treemacs--window-number-ten)))
@@ -884,7 +882,7 @@ through the buffer list and kill buffer if PATH is a prefix."
   (defadvice popwin:create-popup-window
       (around treemacs--popwin-popup-buffer activate)
     (let ((v? (treemacs--is-visible?))
-          (tb (get-buffer treemacs--buffer-name)))
+          (tb (treemacs--get-framelocal-buffer)))
       (when v?
         (with-current-buffer tb
           (setq window-size-fixed nil)))
@@ -896,7 +894,7 @@ through the buffer list and kill buffer if PATH is a prefix."
   (defadvice popwin:close-popup-window
       (around treemacs--popwin-close-buffer activate)
     (let ((v? (treemacs--is-visible?))
-          (tb (get-buffer treemacs--buffer-name)))
+          (tb (treemacs--get-framelocal-buffer)))
       (when v?
         (with-current-buffer tb
           (setq window-size-fixed nil)))
