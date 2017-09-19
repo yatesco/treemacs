@@ -74,8 +74,9 @@ after a theme change.")
 
 (defun treemacs--tear-down-icon-highlight ()
   "Tear down highlighting advice when no treemacs buffer exists anymore."
-  (advice-remove #'hl-line-highlight #'treemacs--update-icon-selection)
-  (advice-remove #'load-theme        #'treemacs--setup-icon-background-colors)
+  (unless treemacs--buffer-access
+    (advice-remove #'hl-line-highlight #'treemacs--update-icon-selection)
+    (advice-remove #'load-theme        #'treemacs--setup-icon-background-colors))
   (treemacs--forget-last-highlight))
 
 (defun treemacs--setup-icon-background-colors (&rest _)
