@@ -882,7 +882,7 @@ through the buffer list and kill buffer if PATH is a prefix."
   (defadvice popwin:create-popup-window
       (around treemacs--popwin-popup-buffer activate)
     (let ((v? (treemacs--is-visible?))
-          (tb (treemacs--get-framelocal-buffer)))
+          (tb (treemacs--buffer-exists?)))
       (when v?
         (with-current-buffer tb
           (setq window-size-fixed nil)))
@@ -894,7 +894,7 @@ through the buffer list and kill buffer if PATH is a prefix."
   (defadvice popwin:close-popup-window
       (around treemacs--popwin-close-buffer activate)
     (let ((v? (treemacs--is-visible?))
-          (tb (treemacs--get-framelocal-buffer)))
+          (tb (treemacs--buffer-exists?)))
       (when v?
         (with-current-buffer tb
           (setq window-size-fixed nil)))
