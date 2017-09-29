@@ -123,7 +123,7 @@ Must be bound to a mouse click, or EVENT will not be supplied."
   (interactive)
   (let ((btn (treemacs--current-button)))
     (pcase (button-get btn 'state)
-      ((or 'dir-node-open 'dir-node-closed)
+      ((or `dir-node-open `dir-node-closed)
        (treemacs--build-tree (button-get btn 'abs-path)))
       (_
        (treemacs--log "Button in current line is not a directory.")))))
