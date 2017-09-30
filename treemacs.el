@@ -91,7 +91,7 @@ If a prefix argument ARG is given manually select the root directory."
            ;; move point to the same file it was with before the refresh if the file
            ;; still exists and is visible, stay in the same line otherwise
            (pcase curr-state
-             ((or 'dir-node-open 'dir-node-closed 'file-node-open 'file-node-closed)
+             ((or `dir-node-open `dir-node-closed `file-node-open `file-node-closed)
               (if (and (f-exists? curr-file)
                        (or treemacs-show-hidden-files
                            (not (s-matches? treemacs-dotfiles-regex (f-filename curr-file)))))
@@ -99,7 +99,7 @@ If a prefix argument ARG is given manually select the root directory."
                 ;; not pretty, but there can still be some off by one jitter when
                 ;; using forwald-line
                 (treemacs--without-messages (with-no-warnings (goto-line curr-line)))))
-             ((or 'tag-node-open 'tag-node-closed 'tag-node)
+             ((or `tag-node-open `tag-node-closed `tag-node)
               (treemacs--goto-tag-button-at curr-tagpath curr-file win-start))
              (_ (treemacs--log "Refresh doesn't yet know how to deal with '%s'" curr-state)))
            (treemacs--evade-image)

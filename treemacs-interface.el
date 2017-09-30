@@ -233,12 +233,12 @@ Treemacs knows how to open files on linux, windows and macos."
   ;; code adapted from ranger.el
   (-if-let (path (treemacs--prop-at-point 'abs-path))
       (pcase system-type
-       ('windows-nt
+       (`windows-nt
         (declare-function w32-shell-execute "w32fns.c")
         (w32-shell-execute "open" (replace-regexp-in-string "/" "\\" path t t)))
-       ('darwin
+       (`darwin
         (shell-command (format "open \"%s\"" path)))
-       ('gnu/linux
+       (`gnu/linux
         (let ((process-connection-type nil))
           (start-process "" nil "xdg-open" path)))
        (_ (treemacs--log "Don't know how to open files on %s."
