@@ -206,7 +206,7 @@ Stay in current window with a prefix argument ARG."
 Pass on prefix ARG to the action."
   (interactive "P")
   (-when-let (state (treemacs--prop-at-point 'state))
-    (funcall (alist-get state treemacs-default-actions) arg)))
+    (funcall (treemacs-alist-get state treemacs-default-actions) arg)))
 
 (defun treemacs-define-default-action (state action)
   "Define the behaviour of `treemacs-visit-default-action'.
