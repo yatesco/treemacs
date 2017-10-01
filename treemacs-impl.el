@@ -375,6 +375,11 @@ and special names like this."
   "Reset the cache of open dirs."
   (setq treemacs--open-dirs-cache nil))
 
+(defsubst treemacs--is-treemacs-window? (window)
+  "Return t when WINDOW is showing a treemacs buffer."
+  (declare (side-effect-free t))
+  (->> window window-buffer buffer-name (s-starts-with? treemacs--buffer-name-prefix)))
+
 ;;;;;;;;;;;;;;;
 ;; Functions ;;
 ;;;;;;;;;;;;;;;
@@ -906,6 +911,20 @@ through the buffer list and kill buffer if PATH is a prefix."
 (with-eval-after-load 'golden-ratio
   (when (bound-and-true-p golden-ratio-exclude-modes)
     (add-to-list 'golden-ratio-exclude-modes 'treemacs-mode)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Persp Compatibility ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(with-eval-after-load 'persp-mode
+  (defun treemacs--remove-treemacs-window-in-new-frames (persp-activated-for)
+    (when (eq persp-activated-for 'frame)
+      (-when-let (w (--first (treemacs--is-treemacs-window? it)
+                             (window-list)))
+        (unless (assoc (selected-frame) treemacs--buffer-access)
+          (delete-window w)))))
+
+  (add-to-list 'persp-activated-functions #'treemacs--remove-treemacs-window-in-new-frames))
 
 (provide 'treemacs-impl)
 
