@@ -99,12 +99,6 @@
 (defvar-local treemacs--in-gui 'unset
   "Indicates whether Emacs is running in a gui or a terminal.")
 
-(defvar treemacs--ready nil
-  "Signals to `treemacs-follow-mode' if a follow action may be run.
-Must be set to nil when no follow actions should be triggered, e.g. when the
-treemacs buffer is being rebuilt or during treemacs' own window selection
-functions.")
-
 (defvar treemacs--no-messages nil
   "When set to t `treemacs--log' will produce no output.
 Not used directly, but as part of `treemacs--without-messages'.")
@@ -498,8 +492,8 @@ Optionally make the git request RECURSIVE."
     ;; needed for root dirs given by projectile if it's used
     (treemacs--build-tree (f-long root))
     (treemacs--check-window-system)
-    (setq treemacs--ready t)
     ;; no warnings since follow mode is known to be defined
+    (setq treemacs--ready-to-follow t)
     (when (or treemacs-follow-after-init (with-no-warnings treemacs-follow-mode))
       (with-current-buffer origin-buffer
         (treemacs--follow)))))
@@ -549,7 +543,6 @@ Optionally make the git request RECURSIVE."
   ;; (treemacs--stop-watching-all);?
   ;; (treemacs--cancel-refresh-timer);?
   ;; (treemacs--cancel-missed-refresh);?
-  ;; (setq treemacs--ready nil);?
   (treemacs--remove-framelocal-buffer)
   (treemacs--tear-down-icon-highlight))
 
